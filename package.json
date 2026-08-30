@@ -1,0 +1,41 @@
+{
+  "name": "oasis",
+  "version": "1.0.0",
+  "description": "Finding that one perfect spot in a desert of options",
+  "homepage": "https://github.com/abhishettyy/Oasis#readme",
+  "bugs": {
+    "url": "https://github.com/abhishettyy/Oasis/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhishettyy/Oasis.git"
+  },
+  "license": "ISC",
+  "author": "Abhish Shetty",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cloudinary": "^2.11.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "joi": "^18.2.5",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.3.1",
+    "multer": "^2.3.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^9.1.0",
+    "router": "^2.2.0",
+    "session": "^0.1.0"
+  }
+}

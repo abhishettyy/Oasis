@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color:#0d0d0d;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis | <%= listing.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+    <%- include('../includes/flash.ejs') %>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand-group">
+                <div class="nav-logo">
+                    <i class="fa-solid fa-compass"></i>
+                    <span class="logo-text">Oasis</span>
+                </div>
+                <p class="nav-tagline">Finding that one perfect spot in a desert of options</p>
+            </div>
+            <div class="nav-links">
+                <a href="/listings">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="show-page">
+            <h2 class="show-title"><%= listing.title %></h2>
+            
+            <div class="show-card">
+                <img src="<%= listing.image.url %>" alt="listing_image" class="show-img">
+                <div class="show-body">
+                    <p class="show-description"><%= listing.description %></p>
+                    <p class="show-price">
+                        Overall Expense: <b>&#8377; <%= listing.price.toLocaleString("en-IN") %></b>
+                    </p>
+                    <p class="show-location"><%= listing.location %></p>
+                    <p class="show-country"><%= listing.country %></p>
+                </div>
+<% if(listing.owner && user.toString() == listing.owner._id.toString()){ %>
+                <div class="show-controls">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-edit">Edit</a>
+                    
+                    <form method="POST" id="delete-form" action="/listings/<%= listing._id %>?_method=DELETE">
+                        <button id="delete-btn" class="btn btn-delete">Delete</button>
+                    </form>
+                </div>
+                <% } %>
+
+            </div>
+
+            <!-- Map -->
+            <div class="map-section">
+                <h4 class="map-heading">Where you'll be</h4>
+                <p class="map-location-text"><i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %></p>
+                <div id="map"></div>
+            </div>
+
+            <!-- Add Review Button -->
+            <button class="btn btn-review" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                Add Review
+            </button>
+
+            <!-- Reviews Section -->
+            <% if(listing.reviews && listing.reviews.length > 0) { %>
+                <div class="reviews-section">
+                    <h4 class="reviews-heading">Reviews</h4>
+                <div class="reviews-grid">
+                    <% for(let review of listing.reviews) { %>
+                        <div class="review-card">
+                            <div class="review-top">
+                                <div class="review-avatar">
+                                    <%= review.author ? review.author.username.charAt(0).toUpperCase() : 'A' %>
+                                </div>
+                                <div class="review-meta">
+                                    <span class="review-username"><%= review.author ? review.author.username : 'Anonymous' %></span>
+                                </div>
+                                <% if(review.author && user.toString() == review.author._id.toString()){ %>
+                                    <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" style="margin:0; margin-left:auto;">
+                                        <button class="btn-review-delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </form>
+                                <% } %>
+                            </div>
+                            <div class="review-stars-row">
+                                <% for(let i = 1; i <= 5; i++) { %>
+                                    <i class="fa-solid fa-star <%= i <= review.rating ? 'star-filled' : 'star-empty' %>"></i>
+                                <% } %>
+                            </div>
+                            <p class="review-description">
+                                <span class="review-text"><%= review.description %></span>
+                                <% if(review.description && review.description.length > 120) { %>
+                                    <a href="#" class="read-more-btn" onclick="toggleReadMore(this); return false;">Read more</a>
+                                <% } %>
+                            </p>
+                        </div>
+                    <% } %>
+                </div>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 12px; border: 1px solid #2a2a2a; background-color: #1a1a1a; color: #f0f0f0;">
+                <div class="modal-header" style="border-bottom: 1px solid #2a2a2a;">
+                    <h5 class="modal-title fw-bold" id="reviewModalLabel" style="color:#f0f0f0;">Leave a Review</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" style="background-color:#1a1a1a;">
+                    <form method="POST" action="/listings/<%= listing._id %>/reviews">
+
+                        <!-- Star Rating -->
+                        <div class="mb-4">
+                            <label class="d-block mb-2" style="color:#f0f0f0; font-weight:500;">Rating</label>
+                            <div class="star-rating">
+                                <input type="radio" name="review[rating]" id="star5" value="5">
+                                <label for="star5"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="review[rating]" id="star4" value="4">
+                                <label for="star4"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="review[rating]" id="star3" value="3" checked>
+                                <label for="star3"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="review[rating]" id="star2" value="2">
+                                <label for="star2"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="review[rating]" id="star1" value="1">
+                                <label for="star1"><i class="fa-solid fa-star"></i></label>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="reviewDesc" style="color:#f0f0f0; font-weight:500; display:block; margin-bottom:0.5rem;">Your Review</label>
+                            <textarea name="review[description]" id="reviewDesc" rows="4" placeholder="Share your experience..." required
+                                style="width:100%; background:#111; color:#f0f0f0; border:1px solid #333; border-radius:8px; padding:0.8rem; font-family:inherit; font-size:0.95rem; outline:none; resize:vertical;"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-review">Submit Review</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../includes/footer.ejs') %>
+    <script src="/js/validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const locationQuery = "<%= listing.location %>, <%= listing.country %>";
+
+        fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationQuery)}&format=json&limit=1`, {
+            headers: { 'Accept-Language': 'en' }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data && data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lon = parseFloat(data[0].lon);
+                const map = L.map('map').setView([lat, lon], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([lat, lon])
+                    .addTo(map)
+                    .bindPopup(`<b><%= listing.location %></b>`, { closeButton: false, autoClose: false })
+                    .openPopup();
+            } else {
+                document.getElementById('map').innerHTML = '<p style="text-align:center; padding:2rem; color:#717171;">Map not available for this location</p>';
+            }
+        })
+        .catch(() => {
+            document.getElementById('map').innerHTML = '<p style="text-align:center; padding:2rem; color:#717171;">Could not load map</p>';
+        });
+    </script>    <script>
+        function toggleReadMore(btn) {
+            const span = btn.previousElementSibling;
+            if(span.classList.contains('expanded')) {
+                span.classList.remove('expanded');
+                btn.textContent = 'Read more';
+            } else {
+                span.classList.add('expanded');
+                btn.textContent = 'Show less';
+            }
+        }
+    </script>
+</body>
+
+
+

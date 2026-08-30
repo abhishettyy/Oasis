@@ -1,0 +1,72 @@
+<%-include('../includes/header.ejs') %>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand-group">
+                <div class="nav-logo">
+                    <i class="fa-solid fa-compass"></i>
+                    <span class="logo-text">Oasis</span>
+                </div>
+                <p class="nav-tagline">Finding that one perfect spot in a desert of options</p>
+            </div>
+            <div class="nav-links">
+                <a href="/listings">Home</a>
+                <a href="/listings">All Listings</a>
+                <a href="/listings/new">Oasis your Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="form-wrapper">
+            <h2 class="form-heading">Edit Your Place</h2>
+            
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="listing-form" novalidate enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control"  name="listing[title]" id="title" value ="<%= listing.title %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea type="text" name="listing[description]" class="form-control"  id="description" rows="5" required><%= listing.description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Current Image</label>
+                    <img src="<%= listing.image.url %>" alt="current image" style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-bottom:0.8rem;">
+                    <label for="image">Change Image</label>
+                    <input type="file" name="image" accept="image/*" id="image" class="form-control">
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-price">
+                        <label for="price">Price</label>
+                        <div class="price-input">
+                            <span>&#8377;</span>
+                            <input type="number" name="listing[price]" id="price" class="form-control"  value ="<%= listing.price %>" required >
+                        </div>
+                    </div>
+
+                    <div class="form-group col-country">
+                        <label for="country">Country</label>
+                        <input type="text" name="listing[country]" id="country" class="form-control"  value ="<%= listing.country %>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="listing[location]" id="location" class="form-control"  value ="<%= listing.location %>" required>
+                </div>
+
+                <button class="btn btn-add">Add Edited Listing</button>
+            </form>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs') %>
+    <script src="/js/formValidate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+</body>
+</html>

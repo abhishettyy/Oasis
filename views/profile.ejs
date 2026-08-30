@@ -1,0 +1,90 @@
+<%- include('./includes/header.ejs') %>
+<body style="background-color:#0d0d0d; color:#f0f0f0;">
+    <%- include('./includes/flash.ejs') %>
+
+    <nav style="padding:1rem 0; border-bottom:1px solid #2a2a2a; background:#0d0d0d; position:sticky; top:0; z-index:1000;">
+        <div style="width:85%; margin:0 auto; display:flex; justify-content:space-between; align-items:center;">
+            <a href="/listings" style="color:#00d084; font-size:1.5rem; font-weight:700; text-decoration:none;">
+                <i class="fa-solid fa-compass"></i> Oasis
+            </a>
+            <a href="/listings" style="color:#f0f0f0; text-decoration:none; font-size:0.9rem;">← Back to Listings</a>
+        </div>
+    </nav>
+
+    <div style="width:85%; max-width:560px; margin:3rem auto;">
+
+        <!-- Avatar + Name -->
+        <div style="display:flex; align-items:center; gap:1.2rem; margin-bottom:2.5rem;">
+            <div style="width:60px; height:60px; border-radius:50%; background:#00d084; color:#0d0d0d; font-size:1.5rem; font-weight:700; display:flex; align-items:center; justify-content:center;">
+                <%= user.username.charAt(0).toUpperCase() %>
+            </div>
+            <div>
+                <h4 style="margin:0; color:#f0f0f0; font-weight:700;"><%= user.username %></h4>
+                <p style="margin:0; color:#888; font-size:0.9rem;"><%= user.email %></p>
+            </div>
+        </div>
+
+        <!-- Update Info -->
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+            <h6 style="color:#00d084; font-weight:600; margin-bottom:1.2rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:1px;">Account Info</h6>
+            <form action="/profile" method="POST" class="needs-validation" novalidate>
+                <input type="hidden" name="action" value="updateInfo">
+
+                <div class="mb-3">
+                    <label style="color:#f0f0f0; font-size:0.9rem; display:block; margin-bottom:0.4rem;">Username</label>
+                    <input type="text" name="username" class="form-control" value="<%= user.username %>" required
+                        style="background:#111; color:#f0f0f0; border-color:#333; border-radius:8px;"/>
+                </div>
+
+                <div class="mb-3">
+                    <label style="color:#f0f0f0; font-size:0.9rem; display:block; margin-bottom:0.4rem;">Email</label>
+                    <input type="email" name="email" class="form-control" value="<%= user.email %>" required
+                        style="background:#111; color:#f0f0f0; border-color:#333; border-radius:8px;"/>
+                </div>
+
+                <button type="submit" class="btn" style="background:#00d084; color:#0d0d0d; font-weight:700; padding:0.5rem 1.5rem; border-radius:8px;">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+
+        <!-- Change Password (only for local users) -->
+        <% if(user.hash) { %>
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:1.5rem;">
+            <h6 style="color:#00d084; font-weight:600; margin-bottom:1.2rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:1px;">Change Password</h6>
+            <form action="/profile" method="POST" class="needs-validation" novalidate>
+                <input type="hidden" name="action" value="changePassword">
+
+                <div class="mb-3">
+                    <label style="color:#f0f0f0; font-size:0.9rem; display:block; margin-bottom:0.4rem;">Current Password</label>
+                    <input type="password" name="oldPassword" class="form-control" placeholder="Enter current password" required
+                        style="background:#111; color:#f0f0f0; border-color:#333; border-radius:8px;"/>
+                </div>
+
+                <div class="mb-3">
+                    <label style="color:#f0f0f0; font-size:0.9rem; display:block; margin-bottom:0.4rem;">New Password</label>
+                    <input type="password" name="newPassword" class="form-control" placeholder="Enter new password" required
+                        style="background:#111; color:#f0f0f0; border-color:#333; border-radius:8px;"/>
+                </div>
+
+                <button type="submit" class="btn" style="background:#1a1a1a; color:#f0f0f0; font-weight:600; padding:0.5rem 1.5rem; border-radius:8px; border:1px solid #333;">
+                    Update Password
+                </button>
+            </form>
+        </div>
+        <% } else { %>
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:1.2rem;">
+            <p style="color:#888; margin:0; font-size:0.9rem;">
+                <i class="fa-brands fa-google" style="color:#00d084; margin-right:0.4rem;"></i>
+                You signed in with Google. Password change is not available for Google accounts.
+            </p>
+        </div>
+        <% } %>
+
+    </div>
+
+    <%- include('./includes/footer.ejs') %>
+    <script src="/js/formValidate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

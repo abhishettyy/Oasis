@@ -1,0 +1,84 @@
+<% if(success && success.length > 0) { %>
+    <div id="flash-success" class="alert alert-dismissible fade show flash-msg" role="alert" style="background-color:#1a1a1a; color:#00d084; border:1px solid #00d084;">
+        <%= success %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<% if(error && error.length > 0) { %>
+    <div id="flash-error" class="alert alert-dismissible fade show flash-msg" role="alert" style="background-color:#1a1a1a; color:#fe424d; border:1px solid #fe424d;">
+        <%= error %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<style>
+    .flash-msg {
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
+        min-width: 250px;
+        max-width: 450px;
+        z-index: 9999;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 8px;
+        transition: opacity 0.5s ease;
+        padding: 0.4rem 1rem;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .flash-msg .btn-close {
+        font-size: 0.65rem;
+        padding: 0;
+        margin-left: auto;
+        flex-shrink: 0;
+        position: static;
+    }
+</style>
+
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.flash-msg').forEach(el => {
+            el.classList.remove('show');
+            el.classList.add('fade');
+            setTimeout(() => el.remove(), 500);
+        });
+    }, 3000);
+</script>
+
+<!-- Global Spinner -->
+<div id="global-spinner" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(13,13,13,0.85); z-index:99999; justify-content:center; align-items:center;">
+    <div style="width:44px; height:44px; border:4px solid #1a1a1a; border-top-color:#00d084; border-radius:50%; animation:globalSpin 0.7s linear infinite;"></div>
+</div>
+
+<style>
+    @keyframes globalSpin { to { transform: rotate(360deg); } }
+</style>
+
+<script>
+    const _spinner = document.getElementById('global-spinner');
+
+    function showSpinner() {
+        _spinner.style.display = 'flex';
+    }
+
+    document.addEventListener('submit', function() {
+        showSpinner();
+    });
+
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if(link && link.href && !link.href.startsWith('mailto') && !link.target && link.hostname === location.hostname && !link.getAttribute('href').startsWith('#')) {
+            showSpinner();
+        }
+    });
+
+    window.addEventListener('pageshow', function() {
+        _spinner.style.display = 'none';
+    });
+</script>

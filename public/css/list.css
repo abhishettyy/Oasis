@@ -1,0 +1,347 @@
+:root {
+    --primary: #00d084;
+    --primary-hover: #00b870;
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --red: #fe424d;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+/* Navbar */
+.navbar {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    width: 85%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: var(--primary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-tagline {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    margin-left: 1.5rem;
+    font-weight: 600;
+}
+
+/* Show Page */
+.container {
+    width: 85%;
+    margin: 2rem auto;
+}
+
+.show-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.show-title {
+    margin-bottom: 1.2rem;
+    font-size: 1.8rem;
+    color: var(--text);
+}
+
+.show-img {
+    width: 100%;
+    border-radius: 1.2rem;
+    height: 400px;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.show-body {
+    margin-top: 1.5rem;
+}
+
+.show-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.show-location, .show-country {
+    margin: 0.2rem 0;
+    color: var(--muted);
+}
+
+.show-price {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+/* Controls & Buttons */
+.show-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.btn {
+    padding: 0.6rem 1.8rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: inherit;
+    transition: background-color 0.2s;
+}
+
+.btn-edit {
+    background-color: var(--primary) !important;
+    color: #0d0d0d !important;
+}
+
+.btn-edit:hover {
+    background-color: var(--primary-hover) !important;
+    color: #0d0d0d !important;
+}
+
+.btn-delete {
+    background-color: var(--surface) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-delete:hover {
+    background-color: var(--red) !important;
+    color: white !important;
+    border-color: var(--red) !important;
+}
+
+/* Add Review Button */
+.btn-review {
+    margin-top: 1.5rem;
+    background-color: transparent !important;
+    color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    padding: 0.6rem 1.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.btn-review:hover {
+    background-color: var(--primary) !important;
+    color: #0d0d0d !important;
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.2rem;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 1.3rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: var(--primary);
+}
+
+/* Reviews Section */
+.reviews-section {
+    margin-top: 2.5rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+}
+
+.reviews-heading {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2.5rem;
+}
+
+.review-card {
+    background: none;
+    border: none;
+    padding: 0;
+    position: relative;
+}
+
+.review-top {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: #0d0d0d;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.review-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-username {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.review-stars-row {
+    display: flex;
+    gap: 0.15rem;
+    margin-bottom: 0.5rem;
+}
+
+.star-filled {
+    color: var(--primary);
+    font-size: 0.75rem;
+}
+
+.star-empty {
+    color: #333;
+    font-size: 0.75rem;
+}
+
+.review-description {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.review-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.review-text.expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+}
+
+.read-more-btn {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 0.2rem;
+}
+
+/* Review Delete Button */
+.btn-review-delete {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 1;
+}
+
+.btn-review-delete:hover {
+    color: var(--red);
+}
+
+/* Map Section */
+.map-section {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+}
+
+.map-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--text);
+}
+
+.map-location-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+}
+
+.map-location-text i {
+    color: var(--primary);
+    margin-right: 0.3rem;
+}
+
+#map {
+    width: 100%;
+    height: 320px;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    overflow: hidden;
+}

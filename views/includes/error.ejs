@@ -1,0 +1,14 @@
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-error">
+    <p><strong>Error:</strong> <%= error %></p>
+  </div>
+<% } else if (Array.isArray(errors) && errors.length) { %>
+  <div class="alert alert-error">
+    <p><strong>Please fix the following:</strong></p>
+    <ul>
+      <% errors.forEach(function(err) { %>
+        <li><%= err %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>
