@@ -143,11 +143,6 @@ Oasis/
 
 ---
 
-## 📸 Screenshots
-
-> *Add screenshots here*
-
----
 
 ## 📄 License
 
